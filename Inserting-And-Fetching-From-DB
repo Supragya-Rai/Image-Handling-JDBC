@@ -1,0 +1,53 @@
+import java.sql.*;
+import java.util.*;
+import java.io.*;
+public class imagethroughjdbc {
+    private static String url ="jdbc:mysql://localhost:3306/mydata";
+    private static  String username = "root";
+    private static String password = "Supragya2006";
+    public static void main(String[] args) throws ClassNotFoundException,SQLException{
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            System.out.println("Driver loaded successfully!!!");
+        } catch (ClassNotFoundException e) {
+            System.out.println(e.getMessage());
+        }
+        try {
+            String query = "SELECT image FROM image_table WHERE img_Id=?";
+            String img_path = "C:\\image\\black-panther-black-3840x2160-10176.jpg";
+            String file_path = "C:\\image\\";
+            Connection con = DriverManager.getConnection(url,username,password);
+//            FileInputStream input = new FileInputStream(img_path);
+//            byte[] image = new byte[input.available()];
+//            input.read(image);
+//            PreparedStatement stmt = con.prepareStatement(query);
+//            stmt.setBytes(1,image);
+//            int rowAffected = stmt.executeUpdate();
+//            if(rowAffected >0){
+//                System.out.println("Image inserted !!!");
+//            }
+//            else{
+//                System.out.println("Not inserted!!!");
+//            }
+            PreparedStatement stmt = con.prepareStatement(query);
+            stmt.setInt(1,1);
+            ResultSet rs = stmt.executeQuery();
+            if(rs.next()){
+                byte[] image_data = rs.getBytes("image");
+                String image_path = file_path+"imgfromdb.jpg";
+                FileOutputStream output = new FileOutputStream(image_path);
+                output.write(image_data);
+                System.out.println("Image uploaded to file!!!");
+                output.close();
+            }
+
+            con.close();
+            stmt.close();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+}
