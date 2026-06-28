@@ -134,10 +134,9 @@ CREATE DATABASE mydata;
 ### Table
 
 ```sql
-CREATE TABLE account(
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    account_No VARCHAR(20) UNIQUE,
-    account_Holder VARCHAR(100),
+CREATE TABLE bank_accounts(
+    account_No VARCHAR(12) PRIMARY KEY,
+    name VARCHAR(100),
     balance DECIMAL(10,2) UNSIGNED
 );
 ```
@@ -145,7 +144,7 @@ CREATE TABLE account(
 ### Sample Data
 
 ```sql
-INSERT INTO account(account_No, account_Holder, balance)
+INSERT INTO bank_accounts(account_No, name, balance)
 VALUES
 ('123456789876','Alice',50000),
 ('123454329876','Bob',30000);
